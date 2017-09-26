@@ -63,7 +63,7 @@ class Vector(object):
 
     # 定义函数，计算标量乘法
     def times_scalar(self,c):
-        new_coordinates = [Decimal(c)*x for x in self.coordinates]
+        new_coordinates = [Decimal(c)*x for x in self.coordinates] # Decimal 确定Vector对象外部的数字也被设置为小数，为了防止两个方向相同的单位向量相乘时因精度缺失导致向量内积大于1
         return Vector(new_coordinates) # 强制转换为Vector类并返回
 
     # 定义函数，计算向量的大小
@@ -75,7 +75,7 @@ class Vector(object):
     def normalized(self):
         try:
             magnitude = self.magnitude()
-            return self.times_scalar(1/magnitude) # Decimal 确定Vector对象外部的数字也被设置为小数，为了防止两个方向相同的单位向量相乘时因精度缺失导致向量内积大于1
+            return self.times_scalar(1/magnitude) 
         except ZeroDivisionError as e: # 若 除(或取模)零，则抛出异常
             raise Exception('Can not normalize the zero vector')
 
