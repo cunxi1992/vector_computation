@@ -22,8 +22,8 @@ from decimal import *
 
 '''
 
-# 设定十进制数学计算下，小数点的精度保留为30位
-# getcontext.prec() = 30
+# 设定十进制数学计算下，精度保留为30位
+getcontext().prec = 30
 
 class Vector(object):
     def __init__(self, coordinates):
