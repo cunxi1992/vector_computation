@@ -22,11 +22,7 @@ from decimal import *
 
 '''
 
-<<<<<<< HEAD
 # 设定十进制数学计算下，小数点的精度保留为30位
-=======
-# 设定十进制数学计算下，精度保留为30位
->>>>>>> b04e907c7552363309de9472ba476fa6f6d34bc3
 getcontext().prec = 30
 
 class Vector(object):
@@ -79,7 +75,7 @@ class Vector(object):
     def normalized(self):
         try:
             magnitude = self.magnitude()
-            return self.times_scalar(1/magnitude) 
+            return self.times_scalar(1/magnitude)
         except ZeroDivisionError as e: # 若 除(或取模)零，则抛出异常
             raise Exception('Can not normalize the zero vector')
 
@@ -117,7 +113,7 @@ class Vector(object):
         if self.is_zero() or v.is_zero():
             return p
         else:
-            a = round(self.coordinates[0]/v.coordinates[0],3) 
+            a = round(self.coordinates[0]/v.coordinates[0],3)
             for i in range(len(self.coordinates)): # range(5) 代表从0到5，不包含5，即[0,1,2,3,4]
                 if(round(self.coordinates[i]/v.coordinates[i],3) != a): # 比较两个向量相同索引处的比值，若均相同，则表示两个向量平行
                     p =False
