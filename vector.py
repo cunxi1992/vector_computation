@@ -22,7 +22,11 @@ from decimal import *
 
 '''
 
+<<<<<<< HEAD
 # 设定十进制数学计算下，小数点的精度保留为30位
+=======
+# 设定十进制数学计算下，精度保留为30位
+>>>>>>> b04e907c7552363309de9472ba476fa6f6d34bc3
 getcontext().prec = 30
 
 class Vector(object):
