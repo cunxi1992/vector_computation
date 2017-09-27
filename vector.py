@@ -23,7 +23,7 @@ from decimal import *
 '''
 
 # 设定十进制数学计算下，小数点的精度保留为30位
-# getcontext.prec() = 30
+getcontext().prec = 30
 
 class Vector(object):
     def __init__(self, coordinates):
@@ -47,7 +47,7 @@ class Vector(object):
     def __str__(self):
         return 'Vector: {}'.format(self.coordinates)
 
-    # 运算符 等于 重载
+    # 运算符 等于 重载，比较==时会被调用
     def __eq__(self, v):
         return self.coordinates == v.coordinates
 
@@ -63,7 +63,7 @@ class Vector(object):
 
     # 定义函数，计算标量乘法
     def times_scalar(self,c):
-        new_coordinates = [Decimal(c)*x for x in self.coordinates]
+        new_coordinates = [Decimal(c)*x for x in self.coordinates] # Decimal 确定Vector对象外部的数字也被设置为小数，为了防止两个方向相同的单位向量相乘时因精度缺失导致向量内积大于1
         return Vector(new_coordinates) # 强制转换为Vector类并返回
 
     # 定义函数，计算向量的大小
@@ -75,7 +75,7 @@ class Vector(object):
     def normalized(self):
         try:
             magnitude = self.magnitude()
-            return self.times_scalar(1/magnitude) # Decimal 确定Vector对象外部的数字也被设置为小数，为了防止两个方向相同的单位向量相乘时因精度缺失导致向量内积大于1
+            return self.times_scalar(1/magnitude) 
         except ZeroDivisionError as e: # 若 除(或取模)零，则抛出异常
             raise Exception('Can not normalize the zero vector')
 
@@ -107,16 +107,17 @@ class Vector(object):
     def is_orthogonal_to(self,v,tolerance = 1e-10):
         return abs(self.dot(v)) < tolerance
 
-    # 判断两个向量是否平行，这里因为不知道用什么方法保持精度的准确性，因此使用round()函数来达到目的
-    def is_parallel_to(self,v,tolerance = 1e-10):
-        u1 = round(self.magnitude(),10)
-        u2 = round(v.magnitude(),10)
+    # 判断两个向量是否平行
+    def is_parallel_to(self,v):
+        p = True
         if self.is_zero() or v.is_zero():
-            return True
-        elif round(u1 % u2,10) < tolerance or round(u2 % u1,10) < tolerance:
-            return True
+            return p
         else:
-            return False
+            a = round(self.coordinates[0]/v.coordinates[0],3) 
+            for i in range(len(self.coordinates)): # range(5) 代表从0到5，不包含5，即[0,1,2,3,4]
+                if(round(self.coordinates[i]/v.coordinates[i],3) != a): # 比较两个向量相同索引处的比值，若均相同，则表示两个向量平行
+                    p =False
+            return p
 
 
     # 计算给定向量的情况下，与基向量的正交向量
